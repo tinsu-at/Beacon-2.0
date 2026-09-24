@@ -1,0 +1,19 @@
+# dependencies
+node_modules
+.pnpm-store
+
+# build output
+dist
+.vite
+
+# local environment files
+.env
+.env.*
+!.env.example
+
+# editor / OS files
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
