@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import type { Session } from "@supabase/supabase-js";
+import Auth from "./Auth";
+import { supabase } from "./lib/supabase";
 
 type Theme = "light" | "dark";
 
@@ -23,6 +26,9 @@ function App() {
     if (saved === "dark" || saved === "light") return saved;
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   });
+  const [session, setSession] = useState<Session | null>(null);
+  const [authReady, setAuthReady] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     document.body.dataset.theme = theme;
@@ -30,7 +36,64 @@ function App() {
     localStorage.setItem("beacon-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => setTheme((current) => current === "light" ? "dark" : "light");
+  useEffect(() => {
+    let active = true;
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (!active) return;
+      setSession(data.session);
+      setAuthReady(true);
+    });
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setSession(nextSession);
+      if (nextSession) setShowAuth(false);
+      setAuthReady(true);
+    });
+
+    return () => {
+      active = false;
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme((current) => (current === "light" ? "dark" : "light"));
+  };
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+  };
+
+  if (!authReady) {
+    return <main className="app-shell"><section className="auth-card"><p className="muted">Loading Beacon…</p></section></main>;
+  }
+
+  if (session) {
+    return (
+      <main className="app-shell">
+        <section className="auth-card">
+          <div className="site-header" style={{ width: "100%", padding: 0 }}>
+            <div className="brand">
+              <span className="brand-mark" aria-hidden="true"><span /></span>
+              <span className="brand-name">Beacon</span>
+            </div>
+            <button className="theme-toggle" type="button" onClick={toggleTheme}>
+              <span aria-hidden="true">{theme === "light" ? "☾" : "☀"}</span>
+            </button>
+          </div>
+          <p className="eyebrow">Your space</p>
+          <h1>Welcome to Beacon.</h1>
+          <p className="muted">Your account is connected. Goals, Journal, Memory, and the rest of the Beacon workspace will be built here step by step.</p>
+          <button className="secondary-button" type="button" onClick={signOut}>Sign out</button>
+        </section>
+      </main>
+    );
+  }
+
+  if (showAuth) {
+    return <Auth onBack={() => setShowAuth(false)} />;
+  }
 
   return (
     <main className="landing">
@@ -40,9 +103,7 @@ function App() {
 
       <header className="site-header">
         <div className="brand">
-          <span className="brand-mark" aria-hidden="true">
-            <span />
-          </span>
+          <span className="brand-mark" aria-hidden="true"><span /></span>
           <span className="brand-name">Beacon</span>
         </div>
 
@@ -73,12 +134,17 @@ function App() {
           in deliberate layers—without losing the calm, focused Beacon feeling.
         </p>
 
+        <div className="hero-actions">
+          <button className="primary-button" type="button" onClick={() => setShowAuth(true)}>
+            Enter Beacon
+          </button>
+          <span className="hero-note">Start with your own private account.</span>
+        </div>
+
         <div className="feature-grid" aria-label="Beacon foundation">
           {features.map((feature) => (
             <article className="feature-card" key={feature.title}>
-              <div className="feature-icon" aria-hidden="true">
-                <span />
-              </div>
+              <div className="feature-icon" aria-hidden="true"><span /></div>
               <h2>{feature.title}</h2>
               <p>{feature.body}</p>
             </article>
