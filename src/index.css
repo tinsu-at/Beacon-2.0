@@ -266,6 +266,62 @@ select {
   line-height: 1.75;
 }
 
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.primary-button {
+  min-height: 48px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  font-weight: 750;
+  box-shadow: 0 12px 30px -14px color-mix(in oklab, var(--primary) 45%, transparent);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.primary-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 34px -14px color-mix(in oklab, var(--primary) 55%, transparent);
+}
+
+.hero-note {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.auth-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.auth-brand {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.back-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 700;
+}
+
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -334,6 +390,11 @@ select {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.7;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 24px 0;
 }
 
 .site-footer {
