@@ -25,8 +25,8 @@ function App() {
   });
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.style.colorScheme = theme;
+    document.body.dataset.theme = theme;
+    document.body.style.colorScheme = theme;
     localStorage.setItem("beacon-theme", theme);
   }, [theme]);
 
