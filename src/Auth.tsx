@@ -21,7 +21,13 @@ export default function Auth({ onBack }: AuthProps) {
     setMessage("");
 
     if (mode === "sign-up") {
-      const { data, error } = await supabase.auth.signUp({\n        email,\n        password,\n        options: {\n          emailRedirectTo: window.location.origin,\n        },\n      });
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: window.location.origin,
+        },
+      });
       if (error) setMessage(error.message);
       else if (!data.session) setMessage("Account created. Check your email to confirm your account.");
       else setMessage("Account created. Welcome to Beacon.");
