@@ -17,7 +17,7 @@
   --input-background: rgba(255, 255, 255, 0.55);
 }
 
-:root[data-theme="dark"] {
+body[data-theme="dark"] {
   --background: oklch(0.15 0.035 255);
   --foreground: oklch(0.94 0.025 220);
   --card: oklch(0.2 0.04 255);
@@ -29,11 +29,11 @@
   --input-background: rgba(8, 24, 44, 0.72);
 }
 
-:root[data-theme="light"] {
+body[data-theme="light"] {
   color: var(--foreground);
 }
 
-:root[data-theme="dark"] {
+body[data-theme="dark"] {
   color: var(--foreground);
 }
 
