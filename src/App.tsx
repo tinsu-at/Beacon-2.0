@@ -14,11 +14,11 @@ type DashboardData = {
   latestJournal: string | null;
 };
 
-const views: { id: View; am: string; en: string; icon: string }[] = [
-  { id: "home", am: "መነሻ", en: "Home", icon: "⌂" },
-  { id: "plan", am: "እቅድ", en: "Plan", icon: "◇" },
-  { id: "journal", am: "ዕለታዊ", en: "Journal", icon: "✎" },
-  { id: "memory", am: "ትውስታ", en: "Memory", icon: "✦" },
+const views: { id: View; label: string; icon: string }[] = [
+  { id: "home", label: "Home", icon: "⌂" },
+  { id: "plan", label: "Plan", icon: "◇" },
+  { id: "journal", label: "Journal", icon: "✎" },
+  { id: "memory", label: "Memory", icon: "✦" },
 ];
 
 function App() {
@@ -136,7 +136,7 @@ function App() {
               <span className="brand-mark" aria-hidden="true"><span /></span>
               <span>
                 <strong>Beacon</strong>
-                <small>ፈለገ ብርሃን</small>
+                <small>Personal assistant</small>
               </span>
             </button>
 
@@ -158,8 +158,8 @@ function App() {
           <section className="app-content">
             <div className="view-heading">
               <div>
-                <span className="view-kicker">{activeView.am}</span>
-                <h1>{activeView.en}</h1>
+                <span className="view-kicker">{activeView.label}</span>
+                <h1>{activeView.label}</h1>
               </div>
               <span className="view-symbol" aria-hidden="true">{activeView.icon}</span>
             </div>
@@ -168,39 +168,39 @@ function App() {
               <div className="home-layout">
                 <section className="welcome-panel glass-panel">
                   <div className="welcome-copy">
-                    <span className="tiny-label">የእርስዎ ቦታ</span>
-                    <h2>ሰላም, {firstName}.</h2>
-                    <p>እዚህ ለማሰብ፣ ለማቀድ እና በዓላማ ለመኖር የሚረዳዎት የግል ቦታ ነው።</p>
-                    <span className="english-caption">A quiet place to think, plan, and grow.</span>
+                    <span className="tiny-label">Your space</span>
+                    <h2>Hello, {firstName}.</h2>
+                    <p>A quiet place to think, plan, and grow with intention.</p>
+                    
                   </div>
                   <div className="beacon-orb large" aria-hidden="true"><span /></div>
                 </section>
 
                 <section className="daily-card glass-panel">
                   <div className="section-topline">
-                    <span>ዛሬ</span>
+                    <span>Today</span>
                     <span className="soft-dot" />
                   </div>
                   <h2>What matters today?</h2>
                   <p>Start with one clear intention. The rest can follow.</p>
                   <button className="text-action" type="button" onClick={() => setView("journal")}>
-                    ዛሬን ጻፍ <span>→</span>
+                    Open journal <span>→</span>
                   </button>
                 </section>
 
                 <div className="stats-row">
                   <article className="mini-card">
-                    <span>ግቦች</span>
+                    <span>Goals</span>
                     <strong>{dashboardLoading ? "…" : dashboard.goals}</strong>
                     <small>active goals</small>
                   </article>
                   <article className="mini-card">
-                    <span>ፕሮጀክቶች</span>
+                    <span>Projects</span>
                     <strong>{dashboardLoading ? "…" : dashboard.projects}</strong>
                     <small>active projects</small>
                   </article>
                   <article className="mini-card">
-                    <span>ትውስታ</span>
+                    <span>Memory</span>
                     <strong>{dashboardLoading ? "…" : dashboard.memories}</strong>
                     <small>saved memories</small>
                   </article>
@@ -212,14 +212,14 @@ function App() {
               <div className="content-grid">
                 <section className="glass-panel feature-panel">
                   <span className="panel-icon">◇</span>
-                  <span className="tiny-label">አቅጣጫ</span>
+                  <span className="tiny-label">Direction</span>
                   <h2>Goals become direction.</h2>
-                  <p>የሚፈልጉትን ነገር ይግለጹ፣ ከዚያም ወደ ፕሮጀክቶች እና ተግባራት ይቀይሩት።</p>
+                  <p>Define what you want, then turn it into projects and practical next steps.</p>
                   <div className="number-line"><strong>{dashboard.goals}</strong><span>active goals</span></div>
                 </section>
                 <section className="glass-panel feature-panel">
                   <span className="panel-icon">+</span>
-                  <span className="tiny-label">ስራ</span>
+                  <span className="tiny-label">Work</span>
                   <h2>Projects become action.</h2>
                   <p>Beacon will connect your bigger intentions with the things you actually do.</p>
                   <div className="number-line"><strong>{dashboard.projects}</strong><span>active projects</span></div>
@@ -230,14 +230,14 @@ function App() {
             {view === "journal" && (
               <div className="journal-layout">
                 <section className="glass-panel journal-hero">
-                  <span className="tiny-label">የዛሬ ሐሳብ</span>
+                  <span className="tiny-label">Today’s thought</span>
                   <h2>Think clearly. Remember honestly.</h2>
-                  <p>ጥያቄዎችዎን፣ ሐሳቦችዎን እና የዕለቱን ትምህርት ያስቀምጡ።</p>
+                  <p>Capture your questions, thoughts, lessons, and moments from the day.</p>
                 </section>
                 <section className="glass-panel journal-entry">
                   <div className="section-topline">
                     <span>Latest entry</span>
-                    <span>የቅርብ ጊዜ</span>
+                    <span>Most recent</span>
                   </div>
                   <p className={dashboard.latestJournal ? "entry-text" : "muted"}>
                     {dashboard.latestJournal ?? "No journal entries yet."}
@@ -251,7 +251,7 @@ function App() {
                 <section className="glass-panel memory-panel">
                   <div className="memory-glow" aria-hidden="true" />
                   <span className="panel-icon">✦</span>
-                  <span className="tiny-label">ትውስታ</span>
+                  <span className="tiny-label">Memory</span>
                   <h2>What should Beacon remember?</h2>
                   <p>Memory will be explicit, private, and under your control. Important context should help Beacon understand you—not quietly collect everything.</p>
                   <div className="memory-count"><strong>{dashboard.memories}</strong><span>saved memories</span></div>
@@ -269,16 +269,13 @@ function App() {
                 onClick={() => setView(item.id)}
               >
                 <span className="nav-icon" aria-hidden="true">{item.icon}</span>
-                <span className="nav-am">{item.am}</span>
-                <span className="nav-en">{item.en}</span>
+                <span className="nav-label">{item.label}</span>
+                <span className="nav-label">{item.label}</span>
               </button>
             ))}
           </nav>
 
-          <footer className="language-footer">
-            <span>ቤኮን</span>
-            <span className="language-line">English · እንግሊዝኛ</span>
-          </footer>
+          
         </div>
       </main>
     );
@@ -310,24 +307,24 @@ function App() {
 
       <section className="landing-hero">
         <div className="hero-orb beacon-orb large" aria-hidden="true"><span /></div>
-        <span className="hero-kicker">ፈለገ ብርሃን · Beacon 2.0</span>
-        <h1>በዓላማ ኑር።<br /><em>Live with purpose.</em></h1>
-        <p>የግል ሕይወትዎን ለማሰብ፣ ለማቀድ እና ለማሻሻል የተሰራ የግል ረዳት።</p>
+        <span className="hero-kicker">Beacon 2.0 · Personal assistant</span>
+        <h1>Live with purpose.<br /><em>Think clearly. Act intentionally.</em></h1>
+        <p>A personal space to think, plan, remember, and steadily improve the way you live.</p>
         <button className="primary-button" type="button" onClick={() => setShowAuth(true)}>
-          ወደ Beacon ይግቡ
+          Enter Beacon
         </button>
-        <span className="english-caption">Enter Beacon</span>
+        
       </section>
 
       <section className="landing-principles">
-        <article><span>01</span><h2>አስብ</h2><p>Think with clarity.</p></article>
-        <article><span>02</span><h2>አቅድ</h2><p>Plan with intention.</p></article>
-        <article><span>03</span><h2>እደግ</h2><p>Grow with consistency.</p></article>
+        <article><span>01</span><h2>Think</h2><p>Think with clarity.</p></article>
+        <article><span>02</span><h2>Plan</h2><p>Plan with intention.</p></article>
+        <article><span>03</span><h2>Grow</h2><p>Grow with consistency.</p></article>
       </section>
 
       <footer className="site-footer">
-        <span>ቤኮን · Beacon</span>
-        <span>English · እንግሊዝኛ</span>
+        <span>Beacon</span>
+        <span>Think · Plan · Grow</span>
       </footer>
     </main>
   );
