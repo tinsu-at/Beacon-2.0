@@ -71,11 +71,10 @@ function App() {
     if (!session?.user.id) return;
 
     let active = true;
+    const userId = session.user.id;
 
     async function loadDashboard() {
       setDashboardLoading(true);
-
-      const userId = session.user.id;
       const [profileResult, goalsResult, projectsResult, memoriesResult, journalResult] =
         await Promise.all([
           supabase.from("profiles").select("display_name").eq("id", userId).maybeSingle(),
