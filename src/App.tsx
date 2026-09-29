@@ -4,7 +4,7 @@ import Auth from "./Auth";
 import { supabase } from "./lib/supabase";
 
 type Theme = "light" | "dark";
-type View = "home" | "plan" | "journal" | "memory";
+type View = "home" | "work" | "journal" | "memory" | "more";
 
 type DashboardData = {
   displayName: string;
@@ -16,9 +16,10 @@ type DashboardData = {
 
 const views: { id: View; label: string; icon: string }[] = [
   { id: "home", label: "Home", icon: "⌂" },
-  { id: "plan", label: "Plan", icon: "◇" },
+  { id: "work", label: "Work", icon: "◇" },
   { id: "journal", label: "Journal", icon: "✎" },
   { id: "memory", label: "Memory", icon: "✦" },
+  { id: "more", label: "More", icon: "⋯" },
 ];
 
 function App() {
@@ -208,7 +209,7 @@ function App() {
               </div>
             )}
 
-            {view === "plan" && (
+            {view === "work" && (
               <div className="content-grid">
                 <section className="glass-panel feature-panel">
                   <span className="panel-icon">◇</span>
@@ -258,6 +259,25 @@ function App() {
                 </section>
               </div>
             )}
+
+            {view === "more" && (
+              <div className="content-grid">
+                <section className="glass-panel feature-panel">
+                  <span className="panel-icon">◈</span>
+                  <span className="tiny-label">AI & Knowledge</span>
+                  <h2>Give Beacon more context.</h2>
+                  <p>Documents, collections, RAG, and web search will live here as Beacon's knowledge layer grows.</p>
+                  <div className="number-line"><strong>→</strong><span>Knowledge center</span></div>
+                </section>
+                <section className="glass-panel feature-panel">
+                  <span className="panel-icon">⚙</span>
+                  <span className="tiny-label">Assistant</span>
+                  <h2>Control how Beacon helps.</h2>
+                  <p>Voice, notifications, reminders, permissions, and settings will become part of this area.</p>
+                  <div className="number-line"><strong>→</strong><span>Assistant settings</span></div>
+                </section>
+              </div>
+            )}
           </section>
 
           <nav className="bottom-nav" aria-label="Beacon sections">
@@ -269,7 +289,6 @@ function App() {
                 onClick={() => setView(item.id)}
               >
                 <span className="nav-icon" aria-hidden="true">{item.icon}</span>
-                <span className="nav-label">{item.label}</span>
                 <span className="nav-label">{item.label}</span>
               </button>
             ))}
