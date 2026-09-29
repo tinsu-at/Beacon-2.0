@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import Auth from "./Auth";
 import { supabase } from "./lib/supabase";
+import HomeView from "./features/home/HomeView";
+import WorkView from "./features/work/WorkView";
+import JournalView from "./features/journal/JournalView";
+import MemoryView from "./features/memory/MemoryView";
+import MoreView from "./features/more/MoreView";
 
 type Theme = "light" | "dark";
 type View = "home" | "work" | "journal" | "memory" | "more";
@@ -166,118 +171,29 @@ function App() {
             </div>
 
             {view === "home" && (
-              <div className="home-layout">
-                <section className="welcome-panel glass-panel">
-                  <div className="welcome-copy">
-                    <span className="tiny-label">Your space</span>
-                    <h2>Hello, {firstName}.</h2>
-                    <p>A quiet place to think, plan, and grow with intention.</p>
-                    
-                  </div>
-                  <div className="beacon-orb large" aria-hidden="true"><span /></div>
-                </section>
-
-                <section className="daily-card glass-panel">
-                  <div className="section-topline">
-                    <span>Today</span>
-                    <span className="soft-dot" />
-                  </div>
-                  <h2>What matters today?</h2>
-                  <p>Start with one clear intention. The rest can follow.</p>
-                  <button className="text-action" type="button" onClick={() => setView("journal")}>
-                    Open journal <span>→</span>
-                  </button>
-                </section>
-
-                <div className="stats-row">
-                  <article className="mini-card">
-                    <span>Goals</span>
-                    <strong>{dashboardLoading ? "…" : dashboard.goals}</strong>
-                    <small>active goals</small>
-                  </article>
-                  <article className="mini-card">
-                    <span>Projects</span>
-                    <strong>{dashboardLoading ? "…" : dashboard.projects}</strong>
-                    <small>active projects</small>
-                  </article>
-                  <article className="mini-card">
-                    <span>Memory</span>
-                    <strong>{dashboardLoading ? "…" : dashboard.memories}</strong>
-                    <small>saved memories</small>
-                  </article>
-                </div>
-              </div>
+              <HomeView
+                firstName={firstName}
+                goals={dashboard.goals}
+                projects={dashboard.projects}
+                memories={dashboard.memories}
+                dashboardLoading={dashboardLoading}
+                onOpenJournal={() => setView("journal")}
+              />
             )}
 
             {view === "work" && (
-              <div className="content-grid">
-                <section className="glass-panel feature-panel">
-                  <span className="panel-icon">◇</span>
-                  <span className="tiny-label">Direction</span>
-                  <h2>Goals become direction.</h2>
-                  <p>Define what you want, then turn it into projects and practical next steps.</p>
-                  <div className="number-line"><strong>{dashboard.goals}</strong><span>active goals</span></div>
-                </section>
-                <section className="glass-panel feature-panel">
-                  <span className="panel-icon">+</span>
-                  <span className="tiny-label">Work</span>
-                  <h2>Projects become action.</h2>
-                  <p>Beacon will connect your bigger intentions with the things you actually do.</p>
-                  <div className="number-line"><strong>{dashboard.projects}</strong><span>active projects</span></div>
-                </section>
-              </div>
+              <WorkView goals={dashboard.goals} projects={dashboard.projects} />
             )}
 
             {view === "journal" && (
-              <div className="journal-layout">
-                <section className="glass-panel journal-hero">
-                  <span className="tiny-label">Today’s thought</span>
-                  <h2>Think clearly. Remember honestly.</h2>
-                  <p>Capture your questions, thoughts, lessons, and moments from the day.</p>
-                </section>
-                <section className="glass-panel journal-entry">
-                  <div className="section-topline">
-                    <span>Latest entry</span>
-                    <span>Most recent</span>
-                  </div>
-                  <p className={dashboard.latestJournal ? "entry-text" : "muted"}>
-                    {dashboard.latestJournal ?? "No journal entries yet."}
-                  </p>
-                </section>
-              </div>
+              <JournalView latestJournal={dashboard.latestJournal} />
             )}
 
             {view === "memory" && (
-              <div className="content-grid single">
-                <section className="glass-panel memory-panel">
-                  <div className="memory-glow" aria-hidden="true" />
-                  <span className="panel-icon">✦</span>
-                  <span className="tiny-label">Memory</span>
-                  <h2>What should Beacon remember?</h2>
-                  <p>Memory will be explicit, private, and under your control. Important context should help Beacon understand you—not quietly collect everything.</p>
-                  <div className="memory-count"><strong>{dashboard.memories}</strong><span>saved memories</span></div>
-                </section>
-              </div>
+              <MemoryView memories={dashboard.memories} />
             )}
 
-            {view === "more" && (
-              <div className="content-grid">
-                <section className="glass-panel feature-panel">
-                  <span className="panel-icon">◈</span>
-                  <span className="tiny-label">AI & Knowledge</span>
-                  <h2>Give Beacon more context.</h2>
-                  <p>Documents, collections, RAG, and web search will live here as Beacon's knowledge layer grows.</p>
-                  <div className="number-line"><strong>→</strong><span>Knowledge center</span></div>
-                </section>
-                <section className="glass-panel feature-panel">
-                  <span className="panel-icon">⚙</span>
-                  <span className="tiny-label">Assistant</span>
-                  <h2>Control how Beacon helps.</h2>
-                  <p>Voice, notifications, reminders, permissions, and settings will become part of this area.</p>
-                  <div className="number-line"><strong>→</strong><span>Assistant settings</span></div>
-                </section>
-              </div>
-            )}
+            {view === "more" && <MoreView />}
           </section>
 
           <nav className="bottom-nav" aria-label="Beacon sections">
